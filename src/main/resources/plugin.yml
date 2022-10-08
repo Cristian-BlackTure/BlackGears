@@ -1,6 +1,6 @@
-name: ExtraGear
+name: BlackGears
 version: ${project.version}
-author: TheBusyBiscuit
+author: BlackTure
 depend: [Slimefun]
 
 api-version: 1.14
