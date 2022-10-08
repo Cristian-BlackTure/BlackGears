@@ -1,24 +1,36 @@
 package io.github.thebusybiscuit.extragear;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.items.groups.NestedItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.groups.SubItemGroup;
-import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
-import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
+import java.util.Arrays;
+
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.block.BlockFace;
+import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.extragear.IngotComp;
 
-public class ACMBlocks {
+@UtilityClass
+public final class ACMBlocks {
 
-    private ACMBlocks() {}
-    //Machines
-    public static final SlimefunItemStack INGOTCOMP = new SlimefunItemStack("INGOTCOMP", Material.PISTON, "&eIngot Builder", "", "&7Builds Ingots", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), LoreBuilder.powerPerSecond(50), LoreBuilder.speed(1), LoreBuilder.powerBuffer(250), "&eBlack Tech");
+    public static final SlimefunItemStack INGOTCOMP = new SlimefunItemStack(
+            "INGOT_COMP",
+            Material.BLACK_CONCRETE,
+            "&6Ingot Compressor",
+            "&ebuilds ingots it's just that."
+    );
 
-    //Item Groups
-    public static final NestedItemGroup JC_CC_GENERAL = new NestedItemGroup(new NamespacedKey(ExtraGear.getInstance(), "JC_CC_GENERAL"), new CustomItemStack(Material.PISTON, "&bBlackTure Tech"));
-    public static final SubItemGroup JC_CC_ITEM_COMPRESSION = new SubItemGroup(new NamespacedKey(ExtraGear.getInstance(), "JC_CC_ITEM_COMPRESSION"), JC_CC_GENERAL, new CustomItemStack(Material.PISTON, "&bItems"));
-    public static final SubItemGroup JC_CC_MACHINES = new SubItemGroup(new NamespacedKey(ExtraGear.getInstance(), "JC_CC_MACHINES"), JC_CC_GENERAL, new CustomItemStack(Material.BLAST_FURNACE, "&bMachines"));
+    public static void setup(ExtraGear plugin) {
+        ItemGroup category = new ItemGroup(SimpleUtils.createKey("main"),
+                new CustomItemStack(Material.IRON_BLOCK, "&6BlackTure Tech"), 0);
+
+        new IngotComp(category, INGOTCOMP, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+                new ItemStack(Material.QUARTZ_BLOCK), new ItemStack(Material.QUARTZ_BLOCK), new ItemStack(Material.QUARTZ_BLOCK),
+                new ItemStack(Material.QUARTZ_BLOCK), new ItemStack(Material.ENDER_PEARL), new ItemStack(Material.QUARTZ_BLOCK),
+                new ItemStack(Material.QUARTZ_BLOCK), new ItemStack(Material.QUARTZ_BLOCK), new ItemStack(Material.QUARTZ_BLOCK)
+        }).register(plugin);
+    }
 }
