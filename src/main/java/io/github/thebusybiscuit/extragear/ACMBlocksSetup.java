@@ -3,20 +3,18 @@ package io.github.thebusybiscuit.extragear;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
-import me.jasperchasetoq.compressioncraft.CompressionCraft;
-import me.jasperchasetoq.compressioncraft.CompressionCraftItems;
-import me.jasperchasetoq.compressioncraft.CompressionCraftRecipeTypes;
-import me.jasperchasetoq.compressioncraft.implementation.items.machines.CcItemCompressor;
-import me.jasperchasetoq.compressioncraft.implementation.items.machines.CcItemDecompressor;
+import io.github.jasperchasetoq.compressioncraft.CompressionCraft;
+import io.github.jasperchasetoq.compressioncraft.CompressionCraftItems;
+import io.github.jasperchasetoq.compressioncraft.CompressionCraftRecipeTypes;
+import io.github.jasperchasetoq.compressioncraft.implementation.items.machines.CcItemCompressor;
+import io.github.jasperchasetoq.compressioncraft.implementation.items.machines.CcItemDecompressor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
 
 public class ACMBlocksSetup {
     private ACMBlocksSetup() {}
 
-    public static void setup(@Nonnull ExtraGear plugin) {
+    public static void setup(ExtraGear plugin) {
     
         //Machines
         //Ingot Builder
