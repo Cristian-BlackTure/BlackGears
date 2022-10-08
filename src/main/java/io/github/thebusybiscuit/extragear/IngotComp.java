@@ -10,10 +10,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 public class IngotComp extends AContainer implements RecipeDisplayItem {
-    @ParametersAreNonnullByDefault
     public IngotComp(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
      super(itemGroup, item, recipeType, recipe);}
         @Override
@@ -32,7 +29,7 @@ public class IngotComp extends AContainer implements RecipeDisplayItem {
             return new ItemStack(SlimefunItems.ELECTRIC_PRESS);
         }
         @Override
-        public String getMachineIdentifier() {return "JC_COMPRESSOR";}
+        public String getMachineIdentifier() {return "INGOTCOMP";}
 
     }
 
