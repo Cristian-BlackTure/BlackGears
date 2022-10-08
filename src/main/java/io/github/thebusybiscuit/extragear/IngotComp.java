@@ -1,101 +1,76 @@
 package io.github.thebusybiscuit.extragear;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 
-public class IngotComp extends AContainer {
+/**
+ * The {@link Freezer} can freeze items into its frozen state, e.g. water to ice.
+ *
+ * @author TheBusyBiscuit
+ * @author svr333
+ * @author J3fftw1
+ */
+public class IngotComp extends AContainer implements RecipeDisplayItem {
 
-    @ParametersAreNonnullByDefault
+    private final ItemSetting<Boolean> useVanillaRatios = new ItemSetting<>(this, "use-vanilla-ratios", false);
+
     public IngotComp(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
-
-        new BlockMenuPreset(getId(), getItemName()) {
-
-            @Override
-            public void init() {
-                constructMenu(this);
-            }
-
-            @Override
-            public boolean canOpen(Block b, Player p) {
-                return p.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);
-            }
-
-            @Override
-            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-                return new int[0];
-            }
-
-            @Override
-            public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
-                if (flow == ItemTransportFlow.WITHDRAW) {
-                    return getOutputSlots();
-                }
-
-                List<Integer> slots = new ArrayList<>();
-
-                for (int slot : getInputSlots()) {
-                    if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), item, true)) {
-                        slots.add(slot);
-                    }
-                }
-
-                if (slots.isEmpty()) {
-                    return getInputSlots();
-                } else {
-                    Collections.sort(slots, compareSlots(menu));
-                    int[] array = new int[slots.size()];
-
-                    for (int i = 0; i < slots.size(); i++) {
-                        array[i] = slots.get(i);
-                    }
-
-                    return array;
-                }
-            }
-        };
-    }
-
-    private Comparator<Integer> compareSlots(DirtyChestMenu menu) {
-        return Comparator.comparingInt(slot -> menu.getItemInSlot(slot).getAmount());
+        addItemSetting(useVanillaRatios);
     }
 
     @Override
     protected void registerDefaultRecipes() {
-        registerRecipe(45, new ItemStack[] { SlimefunItems.OIL_BUCKET }, new ItemStack[] { new CustomItemStack(SlimefunItems.PLASTIC_SHEET, 8) });
+        // This if statement makes the transformation follow Minecraft logic
+        if (useVanillaRatios.getValue()) {
+            registerRecipe(4, new ItemStack[] { new ItemStack(Material.ICE, 9) }, new ItemStack[] { new ItemStack(Material.PACKED_ICE) });
+            registerRecipe(6, new ItemStack[] { new ItemStack(Material.PACKED_ICE, 9) }, new ItemStack[] { new ItemStack(Material.BLUE_ICE) });
+        } else {
+            registerRecipe(4, new ItemStack[] { new ItemStack(Material.ICE) }, new ItemStack[] { new ItemStack(Material.PACKED_ICE) });
+            registerRecipe(6, new ItemStack[] { new ItemStack(Material.PACKED_ICE) }, new ItemStack[] { new ItemStack(Material.BLUE_ICE) });
+        }
+
+        registerRecipe(2, new ItemStack[] { new ItemStack(Material.WATER_BUCKET) }, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.ICE) });
+        registerRecipe(8, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) }, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.OBSIDIAN) });
+        registerRecipe(8, new ItemStack[] { new ItemStack(Material.BLUE_ICE) }, new ItemStack[] { SlimefunItems.REACTOR_COOLANT_CELL });
+        registerRecipe(6, new ItemStack[] { new ItemStack(Material.SNOW_BLOCK, 2) }, new ItemStack[] { new ItemStack(Material.ICE) });
+        registerRecipe(6, new ItemStack[] { new ItemStack(Material.MAGMA_CREAM) }, new ItemStack[] { new ItemStack(Material.SLIME_BALL) });
+        registerRecipe(6, new ItemStack[] { new ItemStack(Material.MAGMA_BLOCK, 2) }, new ItemStack[] { new ItemStack(Material.SLIME_BLOCK) });
+    }
+
+    @Override
+    public List<ItemStack> getDisplayRecipes() {
+        List<ItemStack> displayRecipes = new ArrayList<>(recipes.size() * 2);
+
+        for (MachineRecipe recipe : recipes) {
+            displayRecipes.add(recipe.getInput()[0]);
+            displayRecipes.add(recipe.getOutput()[recipe.getOutput().length - 1]);
+        }
+
+        return displayRecipes;
     }
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.FLINT_AND_STEEL);
+        return new ItemStack(Material.GOLDEN_PICKAXE);
     }
 
     @Override
     public String getMachineIdentifier() {
-        return "INGOT_COMP";
+        return "IngotComp";
     }
 
 }
