@@ -23,8 +23,8 @@ public final class ACMBlocks {
     );
 
     public static void setup(ExtraGear plugin) {
-        ItemGroup category = new ItemGroup(ExtraGear.createKey("main"),
-                new CustomItemStack(Material.IRON_BLOCK, "&6BlackTure Tech"), 0);
+        ItemStack categoryItem = new CustomItemStack(SlimefunUtils.getCustomHead("240775c3ad75763613f32f04986881bbe4eee4366d0c57f17f7c7514e2d0a77d"), "&2Eco-Power Generators");
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(this, "BlackTure Tech"), categoryItem, 4);
 
         new IngotComp(category, INGOTCOMP, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
                 new ItemStack(Material.QUARTZ_BLOCK), new ItemStack(Material.QUARTZ_BLOCK), new ItemStack(Material.QUARTZ_BLOCK),
