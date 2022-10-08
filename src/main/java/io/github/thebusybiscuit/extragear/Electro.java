@@ -47,3 +47,17 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 
+public final class Electro {
+
+    @Override
+    public void onEnable() {
+        Config cfg = new Config(this);
+
+        if (cfg.getBoolean("options.auto-update") && getDescription().getVersion().startsWith("DEV - ")) {
+            new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/EcoPower/master").start();
+        }
+
+        new Metrics(this, 8154);
+
+        ItemStack categoryItem = new CustomItemStack(SlimefunUtils.getCustomHead("240775c3ad75763613f32f04986881bbe4eee4366d0c57f17f7c7514e2d0a77d"), "&2BlackTure Technology");
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(this, "generators"), categoryItem, 4);
