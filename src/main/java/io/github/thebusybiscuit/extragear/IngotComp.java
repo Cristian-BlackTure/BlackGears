@@ -12,9 +12,9 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public class CcItemCompressor extends AContainer implements RecipeDisplayItem {
+public class IngotComp extends AContainer implements RecipeDisplayItem {
     @ParametersAreNonnullByDefault
-    public CcItemCompressor(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public IngotComp(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
      super(itemGroup, item, recipeType, recipe);}
         @Override
         protected void registerDefaultRecipes() {
