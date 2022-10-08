@@ -13,7 +13,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.extragear.IngotComp;
 
-@UtilityClass
 public final class ACMBlocks {
 
     public static final SlimefunItemStack INGOTCOMP = new SlimefunItemStack(
@@ -24,7 +23,7 @@ public final class ACMBlocks {
     );
 
     public static void setup(ExtraGear plugin) {
-        ItemGroup category = new ItemGroup(SimpleUtils.createKey("main"),
+        ItemGroup category = new ItemGroup(ExtraGear.createKey("main"),
                 new CustomItemStack(Material.IRON_BLOCK, "&6BlackTure Tech"), 0);
 
         new IngotComp(category, INGOTCOMP, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
