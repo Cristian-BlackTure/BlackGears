@@ -62,14 +62,6 @@ public final class Electro {
         ItemStack categoryItem = new CustomItemStack(SlimefunUtils.getCustomHead("240775c3ad75763613f32f04986881bbe4eee4366d0c57f17f7c7514e2d0a77d"), "&2BlackTure Technology");
         ItemGroup itemGroup = new ItemGroup(new NamespacedKey(this, "generators"), categoryItem, 4);
 
-    public static final SlimefunItemStack INGOT_PRESS = new SlimefunItemStack(
-            "INGOT_PRESS",
-            Material.PISTON,
-            "&fIngot Press",
-            "",
-            "&7Creates special ingots",
-            LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE),
-            LoreBuilder.powerBuffer(512),
-            LoreBuilder.powerPerSecond(256)
-    );
+
+    public static final SlimefunItemStack INGOT_PRESS = new SlimefunItemStack("INGOT_PRESS", Material.WHITE_STAINED_GLASS, "&cIngot Press", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), LoreBuilder.speed(1), LoreBuilder.powerPerSecond(20));
 }
