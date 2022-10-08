@@ -1,67 +1,43 @@
-package io.github.thebusybiscuit.extragear;
+package me.gallowsdove.foxymachines;
 
-import lombok.experimental.UtilityClass;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
-import io.github.addoncommunity.galactifun.Galactifun;
-import io.github.addoncommunity.galactifun.api.items.Relic;
-import io.github.addoncommunity.galactifun.api.items.spacesuit.SpaceSuit;
-import io.github.addoncommunity.galactifun.api.items.spacesuit.SpaceSuitHelmet;
-import io.github.addoncommunity.galactifun.api.items.spacesuit.SpaceSuitStat;
-import io.github.addoncommunity.galactifun.api.items.spacesuit.SpaceSuitUpgrade;
-import io.github.addoncommunity.galactifun.api.universe.attributes.atmosphere.Gas;
-import io.github.addoncommunity.galactifun.api.worlds.AlienWorld;
-import io.github.addoncommunity.galactifun.base.items.AssemblyTable;
-import io.github.addoncommunity.galactifun.base.items.AtmosphericHarvester;
-import io.github.addoncommunity.galactifun.base.items.AutomaticDoor;
-import io.github.addoncommunity.galactifun.base.items.CircuitPress;
-import io.github.addoncommunity.galactifun.base.items.DiamondAnvil;
-import io.github.addoncommunity.galactifun.base.items.Electrolyzer;
-import io.github.addoncommunity.galactifun.base.items.FusionReactor;
-import io.github.addoncommunity.galactifun.base.items.LaunchPadCore;
-import io.github.addoncommunity.galactifun.base.items.LaunchPadFloor;
-import io.github.addoncommunity.galactifun.base.items.OxygenFiller;
-import io.github.addoncommunity.galactifun.base.items.SpaceSuitUpgrader;
-import io.github.addoncommunity.galactifun.base.items.StargateController;
-import io.github.addoncommunity.galactifun.base.items.StargateRing;
-import io.github.addoncommunity.galactifun.base.items.TechnologicalSalvager;
-import io.github.addoncommunity.galactifun.base.items.knowledge.Observatory;
-import io.github.addoncommunity.galactifun.base.items.knowledge.PlanetaryAnalyzer;
-import io.github.addoncommunity.galactifun.base.items.protection.CoolingUnit;
-import io.github.addoncommunity.galactifun.base.items.protection.ForcefieldGenerator;
-import io.github.addoncommunity.galactifun.base.items.protection.IonDisperser;
-import io.github.addoncommunity.galactifun.base.items.protection.OxygenSealer;
-import io.github.addoncommunity.galactifun.base.items.protection.SpaceHeater;
-import io.github.addoncommunity.galactifun.base.items.rockets.ChemicalRocket;
-import io.github.addoncommunity.galactifun.base.items.rockets.IonRocket;
-import io.github.addoncommunity.galactifun.core.CoreItemGroup;
-import io.github.mooy1.infinitylib.machines.MachineBlock;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.mooy1.infinitylib.machines.MachineLore;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.NestedItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.SubItemGroup;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
+import me.gallowsdove.foxymachines.implementation.machines.ElectricGoldRefinery;
+import me.gallowsdove.foxymachines.implementation.machines.ForcefieldDome;
+import me.gallowsdove.foxymachines.implementation.machines.ImprovementForge;
+import me.gallowsdove.foxymachines.implementation.machines.PotionMixer;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.meta.ItemMeta;
 
-public final class Electro {
+public final class Items{
 
-    @Override
-    public void onEnable() {
-        Config cfg = new Config(this);
+    // Item groups
+    public static NestedItemGroup MAIN_ITEM_GROUP = new NestedItemGroup(
+            new NamespacedKey(ExtraGear.getInstance(), "blackture"),
+            new CustomItemStack(Material.BLACK_CONCRETE, "&4BlackTure Tech")
+    );
 
-        if (cfg.getBoolean("options.auto-update") && getDescription().getVersion().startsWith("DEV - ")) {
-            new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/EcoPower/master").start();
-        }
+    public static SubItemGroup MATERIALS_ITEM_GROUP = new SubItemGroup(
+            new NamespacedKey(ExtraGear.getInstance(), "materials"),
+            MAIN_ITEM_GROUP,
+            new CustomItemStack(Material.GOLD_INGOT, "&bMaterials")
+    );
 
-        new Metrics(this, 8154);
+    public static SubItemGroup TOOLS_ITEM_GROUP = new SubItemGroup(
+            new NamespacedKey(ExtraGear.getInstance(), "tools"),
+            MAIN_ITEM_GROUP,
+            new CustomItemStack(Material.IRON_INGOT, "&bTools")
+    );
 
-        ItemStack categoryItem = new CustomItemStack(SlimefunUtils.getCustomHead("240775c3ad75763613f32f04986881bbe4eee4366d0c57f17f7c7514e2d0a77d"), "&2BlackTure Technology");
-        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(this, "generators"), categoryItem, 4);
-
-    public static final SlimefunItemStack INGOT_PRESS = new SlimefunItemStack("INGOT_PRESS", Material.WHITE_STAINED_GLASS, "&cIngot Press", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), LoreBuilder.speed(1), LoreBuilder.powerPerSecond(20));
- }
-}
