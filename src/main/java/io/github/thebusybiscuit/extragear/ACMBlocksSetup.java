@@ -10,6 +10,7 @@ import io.github.jasperchasetoq.compressioncraft.implementation.items.machines.C
 import io.github.jasperchasetoq.compressioncraft.implementation.items.machines.CcItemDecompressor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import io.github.thebusybiscuit.extragear;
 
 public class ACMBlocksSetup {
     private ACMBlocksSetup() {}
@@ -19,7 +20,7 @@ public class ACMBlocksSetup {
         //Machines
         //Ingot Builder
 
-        new CcItemCompressor(ACMBlocks.JC_CC_MACHINES, ACMBlocks.INGOTCOMP, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new IngotComp(ACMBlocks.JC_CC_MACHINES, ACMBlocks.INGOTCOMP, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {
                         SlimefunItems.CARBON, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.CARBON,
                         SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.PISTON), SlimefunItems.ELECTRIC_MOTOR,
